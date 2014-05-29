@@ -7,6 +7,7 @@ Crawl feeds.
 import collections
 import logging
 import sys
+from contextlib import closing
 
 try:
     import urllib.request as urllib2
@@ -24,7 +25,17 @@ from .subscribe import SubscriptionSet
 from .version import VERSION
 
 
-__all__ = 'CrawlError', 'CrawlResult', 'crawl', 'get_feed'
+__all__ = ('CrawlError', 'CrawlResult', 'check_reachable_url', 'crawl',
+           'get_feed')
+
+
+def check_reachable_url(url):
+    try:
+        with closing(open_url(url)) as fp:
+            fp.read()
+            return True
+    except:
+        return False
 
 
 def open_url(url):
