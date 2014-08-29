@@ -1021,6 +1021,19 @@ class DocumentElement(Element):
         self._root = weakref.ref(self)
         super(DocumentElement, self).__init__(_parent or self, **kwargs)
 
+    def export(self):
+        """Export :class:`DocumentElement` element to an XML string for
+        migration to another reader.
+
+        :returns: an XML string.
+        :rtype: :class:`str`
+
+        .. versionadded:: 0.4.0
+        """
+
+        #FIXME: remove Earth Reader's custom namespace.
+        return ''.join(write(self))
+
     def _parse_next(self):
         """Parse the next step of iteration.
 
